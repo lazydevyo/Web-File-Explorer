@@ -77,21 +77,32 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
 
         if(is_dir($currentdir_Cont[$x+2])){
             if($filetype=="folder"){
-            
+             
             $filesize = GetDirectorySize(getcwd()."\\".$currentdir_Cont[$x+2]);
             }else{
             $filesize = filesize(getcwd()."\\".$currentdir_Cont[$x+2]);  
             }
-            echo "<tr><td><a href='?dir=".$currentdir_Cont[$x+2]."\\". "'>".
-            "<img id=\"filetype\" src=\"Explorer/filetype/png/".$filetype.".png\" onerror=\"this.src='Explorer/filetype/png/folder.png';\"/><text>"
-            .$currentdir_Cont[$x+2]."</text></a></td>"."<td>".formatSizeUnits($filesize)."</td>"
-            
-            ."</tr>";
+
+            //check folder path if its in root and theres a folder named Explorer
+            if($_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2] == "Explorer"){
+
+
+            }else{
+
+                echo "<tr><td><a href='?dir=".$currentdir_Cont[$x+2]."\\". "'>".
+                "<img id=\"filetype\" src=\"Explorer/filetype/png/".$filetype.".png\" onerror=\"this.src='Explorer/filetype/png/folder.png';\"/><text>"
+                .$currentdir_Cont[$x+2]."</text></a></td>"."<td>".formatSizeUnits($filesize)."</td>"
+                
+                ."</tr>";
+            }
+
            
         }else{
-            //if its not on Root just add to the directory the file folder name
-            //check if its in the root and its index.php or exporer.php and hide them.
-            if($_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="index.php" || $_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="explorer.php"){
+          
+
+
+            //check if its in root and theres files index.php or exporer.php and hide them.
+            if($_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="index.php" || $_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="explorer.php" || $_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="\Explorer"){
               //nothing echo-ing 
 
 

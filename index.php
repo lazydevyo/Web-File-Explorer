@@ -1,96 +1,50 @@
-<?php session_start(); ?>
+<?php 
+session_start();
+
+if (strpos("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", '?theme=') !== false) {
+    SaveTheme($_GET['theme'].".css");
+}
+
+
+//Load the theme
+$fp = fopen('Explorer/theme.select', 'r');
+$theme = fread($fp,filesize("Explorer/theme.select"));
+
+
+
+function SaveTheme($text){
+        $fp = fopen('Explorer/theme.select', 'w');
+        fwrite($fp, $text);
+        fclose($fp);
+}
+
+?>
+
 <HTML>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="Explorer/themes/<?php echo $theme; ?>">
 <style>
+#selectstyle{
 
-Body,html {
-margin:0px;
-
-}
-#dirwindow {
-    color: #797979;
-   
-    width: calc(100% - 50px);
-}
-#mainwindow{
-margin:40px;
-}
-#mainwindow , #dirwindow{
-    font-size :1em;
-    padding: 24px;
-    border: 1px solid #eaeaea;
-    box-shadow: #0000002e 3px 8px 18px;
-    font-family: arial;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 28px;
+    border: 0px;
 }
 
-
-#filetype{
-margin-left: -10px;
-width:20px;
-height:20px;
-
+#selectstyle a{
+    text-decoration: none;
 }
-text {
-    margin-left:5px;
-}
-
-#mainwindow a{
-
-padding-left:24px;
-padding-right:10px;
-padding-top:6px;
-padding-bottom:6px;
-display: block;
-
-color:#000;
-text-decoration: none;
-}
-
-#mainwindow a:hover{
-color:#fff;
-background-color: #ffcc7e;
-}
-
-table{
-width:100%;
-
-}
-tr:nth-child(even){background-color: #f2f2f2;}
-
-td:nth-child(2){
-    color:#808080;
-}
-
-td {
-    width: 88%;
-    text-align: left;
-
-}
-th{
-    font-weight:normal;
-    height: 54px;
-    padding-top: 24px;
-    border-bottom: 1px solid #ccc;
-    width: 50%;
-    text-align:left;
-}
-@media only screen and (max-width: 600px) {
-    #mainwindow{
-        padding:0px;
-        margin:0px;
-    }
-    td:nth-child(2),th:nth-child(2){
-display:none;
-
-    }
-}
-
 </style>
 
 </head>
 <body>
-
+<div id="SelectStyle">
+<a href="?theme=Dark">🌚</a>
+<a href="?theme=Light">🌞</a>
+</div>
 <div id="mainwindow">
 
 

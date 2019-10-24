@@ -91,7 +91,7 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
         }else{
             //if its not on Root just add to the directory the file folder name
             //check if its in the root and its index.php or exporer.php and hide them.
-            if($_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="index.php" || $_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="exporer.php"){
+            if($_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="index.php" || $_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="explorer.php"){
               //nothing echo-ing 
 
 

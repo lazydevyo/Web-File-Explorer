@@ -96,7 +96,7 @@ display:none;
 
 <?php 
 
-include "exporer.php" ;
+include "explorer.php" ;
 
 ?>  
 

@@ -1,5 +1,32 @@
 <?php 
+
 $currentPath ="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$short = 2; //short by name
+
+if(!isset($_SESSION["show_thumbnails"])){
+    
+    $_SESSION["show_thumbnails"] = false;
+}
+
+if(isset($_POST['swap'])){
+    $_SESSION["show_thumbnails"] = !$_SESSION["show_thumbnails"];
+   
+    echo "<meta http-equiv='refresh' content='0'>";
+}
+
+
+if($_SESSION["show_thumbnails"]==true){
+    $titleLenght = 3;
+    $htmltype_tr = "div";
+    $htmltype_td = "span";
+    $classname = "grid-item";
+}else{
+    $titleLenght = 20;
+    $htmltype_tr = "tr";
+    $htmltype_td = "td";
+    $classname = "list-item";
+}
+
 if(!isset($_SESSION["currentdir"])){
     //current directory (default root) without session
     $_SESSION["currentdir"] = getcwd();
@@ -20,7 +47,7 @@ if(is_dir($_SESSION["currentdir"])){
 
 
         //read everything as array and set it.
-    $currentdir_Cont = scandir($_SESSION["currentdir"]);
+    $currentdir_Cont = scandir($_SESSION["currentdir"],$short);
     // check the lengh of the array
     $dir_len  = count($currentdir_Cont);
 
@@ -58,7 +85,12 @@ if(is_dir($_SESSION["currentdir"])){
  }
 
 //echo the array with hrefs.
+if($_SESSION["show_thumbnails"]==false){
 echo"<table><tr><th>Name</th><th>Size</th></tr>";
+}else{
+echo"<div class='grid-container'>";
+
+}
     for($x = 0; $x < $dir_len-2; $x++) {
 
       //  $filetype = "046-file-45";
@@ -70,9 +102,8 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
         $filetype = "folder";
         
       }
-        
-        
-      
+    
+
 
 
 
@@ -82,7 +113,9 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
             if($filetype=="folder"){
              
             $filesize = GetDirectorySize(getcwd()."\\".$currentdir_Cont[$x+2]);
+            
             }else{
+               
             $filesize = filesize(getcwd()."\\".$currentdir_Cont[$x+2]);  
             }
 
@@ -92,11 +125,11 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
 
             }else{
 
-                echo "<tr><td><a href='?dir=".$currentdir_Cont[$x+2]."\\". "'>".
+                echo "<".$htmltype_tr." class='".$classname."'><".$htmltype_td."><a href='?dir=".$currentdir_Cont[$x+2]."\\". "'>".
                 "<img id=\"filetype\" src=\"Explorer/filetype/png/".$filetype.".png\" onerror=\"this.src='Explorer/filetype/png/folder.png';\"/><text>"
-                .$currentdir_Cont[$x+2]."</text></a></td>"."<td>".formatSizeUnits($filesize)."</td>"
+                .limit_text($currentdir_Cont[$x+2],$titleLenght)."</text></a></".$htmltype_td.">"."<".$htmltype_td.">".formatSizeUnits($filesize)."</".$htmltype_td.">"
                 
-                ."</tr>";
+                ."</".$htmltype_tr.">";
             }
 
            
@@ -104,7 +137,9 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
 
 
             //check if its in root and its a file called index.php or exporer.php and hide them.
-            if($_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="index.php" || $_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="explorer.php" || $_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="\Explorer"){
+            if($_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="index.php" ||
+               $_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="explorer.php" ||
+               $_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="\Explorer"){
               //nothing echo-ing 
 
 
@@ -117,6 +152,7 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
 						
 						//if the whole url contains ?dir=
                         if (strpos($currentPath, '?dir=') !== false) {
+                            
 							//if its not on root
                         $filesize = GetDirectorySize(getcwd()."\\".substr($_GET['dir'], 0, -1)."\\".$currentdir_Cont[$x+2]);
 						}else{
@@ -147,12 +183,29 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
 					//if not add it
 				$extrdir = "?dir=";
 				}
-				
-              	  echo "<tr><td><a href='".$extrdir.$currentPath.$currentdir_Cont[$x+2]."\\"."'>".
-                "<img id=\"filetype\" src=\"Explorer/filetype/png/".$filetype.".png\" onerror=\"this.src='Explorer/filetype/png/folder.png';\"/><text>"
-                .$currentdir_Cont[$x+2]."</text></a></td>"."<td>".formatSizeUnits($filesize)."</td>"
+                //if file type is one of these replace the icon with the actual image from the file
+                if($filetype=="jpg" || $filetype=="png" || $filetype=="gif" || $filetype=="bmp"){
+
+                    if($_SESSION["show_thumbnails"]==true){
+                        $filetype ="http://localhost/".str_replace('\\','/',substr($_GET['dir'], 0, -1))."/".$currentdir_Cont[$x+2];
+                    }else{
+                        $filetype = "Explorer/filetype/png/".$filetype.".png";
+                    }
+                    
+                   
+                }else{
+
+                    //else just show an icon coresponding to the file type
+                    $filetype = "Explorer/filetype/png/".$filetype.".png";
+                }
                 
-                ."</tr>";
+               
+                echo "<".$htmltype_tr." class='".$classname."'><".$htmltype_td."><a href='".$extrdir.$currentPath.$currentdir_Cont[$x+2]."\\"."'>".
+                    "<img id=\"filetype\" src=\"".$filetype."\" onerror=\"this.src='Explorer/filetype/png/folder.png';\"/><text>"
+                    .limit_text($currentdir_Cont[$x+2],$titleLenght)."</text></a></".$htmltype_td.">"."<".$htmltype_td.">".formatSizeUnits($filesize)."</".$htmltype_td.">"
+                    
+                    ."</".$htmltype_tr.">";
+              
               
             }
             
@@ -160,9 +213,22 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
         
        
     }
+    if($_SESSION["show_thumbnails"]==false){
     echo"</table>";
-    
+    }else{
+        echo"</div>";
+    }
 }
+
+function limit_text($text, $limit) {
+    if (str_word_count($text, 0) > $limit) {
+        $words = str_word_count($text, 2);
+        $pos = array_keys($words);
+        $text = substr($text, 0, $pos[$limit]) . '...';
+    }
+    return $text;
+  }
+  
 function GetDirectorySize($path){
     $bytestotal = 0;
     $path = realpath($path);

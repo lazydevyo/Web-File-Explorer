@@ -10,6 +10,7 @@ Body,html {
     }
     #mainwindow{
     margin:40px;
+    
     }
     #mainwindow , #dirwindow{
         font-size :1em;
@@ -18,20 +19,43 @@ Body,html {
         box-shadow: #0000002e 3px 8px 18px;
         font-family: arial;
     }
-    
-    
+
+    .grid-container{
+        display: grid;
+        grid-template-columns: 250px 250px 250px 250px;
+
+    }
+    .grid-item {
+        width: 190px;
+        height: 190px;
+        margin:10px;
+        padding: 20px;
+        
+        text-align: center;
+      }
+
+    .grid-item img {
+    margin: 0 auto!important;
+    display: block;
+    width: 150px!important;
+    height:auto!important;
+    max-height:150px!important;
+    }
     #filetype{
+    vertical-align: bottom;
     margin-left: -10px;
     width:20px;
     height:20px;
     
     }
     text {
+        
         margin-left:5px;
     }
     
     #mainwindow a{
-    
+    width: calc(100% - 34px);
+    height: 100%;
     padding-left:24px;
     padding-right:10px;
     padding-top:6px;
@@ -70,6 +94,15 @@ Body,html {
         width: 50%;
         text-align:left;
     }
+
+    input[type=submit] {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #000;
+        background-color: #fff;
+        background-image: url(/explorer/images/thumbnail.png);
+        background-size: cover;
+    }
     @media only screen and (max-width: 600px) {
         #mainwindow{
             padding:0px;
@@ -77,6 +110,14 @@ Body,html {
         }
         td:nth-child(2),th:nth-child(2){
     display:none;
+    
+        }
+        .grid-container{
+            display: block;
+    margin-left: 66px;
+    margin-right: auto;
+    right: 0;
+    text-align: center;
     
         }
     }

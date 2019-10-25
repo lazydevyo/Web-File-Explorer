@@ -3,6 +3,7 @@ session_start();
 
 if (strpos("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", '?theme=') !== false) {
     SaveTheme($_GET['theme'].".css");
+ //   Header("Location:http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 }
 
 
@@ -46,7 +47,10 @@ function SaveTheme($text){
 <a href="?theme=Light">🌞</a>
 </div>
 <div id="mainwindow">
+<form action="<?php echo"http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>" method="post">
 
+<input type="submit" name="swap" value="">
+</form>
 
 <?php 
 

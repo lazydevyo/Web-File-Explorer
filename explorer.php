@@ -6,9 +6,11 @@ if(!isset($_SESSION["currentdir"])){
 }else{
     //if url contains dir set directory to(root + dir value)
     if (strpos($currentPath, '?dir=') !== false) {
+		
+		// currentdir shows clean directory e.g localhost\folder\ instead localhost?dir=folder\
         $_SESSION["currentdir"] = getcwd()."\\".$_GET['dir'];
      }else{
-           //current directory (default root) with session
+           //current directory (default root) with session e.g no ?dir= so just show localhost.
         $_SESSION["currentdir"] =getcwd();
      }
 
@@ -74,7 +76,7 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
 
 
 
-//if its directory set to ?dir= Basicaly if its a folder or its not in root
+//if currentdir_Cont is a directoy or a file. Basicly if the path is a file or a folder
 
         if(is_dir($currentdir_Cont[$x+2])){
             if($filetype=="folder"){
@@ -113,7 +115,7 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
 				//check if $filetype is folder and check the folder size with GetDirectorySize()
                     if($filetype=="folder"){
 						
-						
+						//if the whole url contains ?dir=
                         if (strpos($currentPath, '?dir=') !== false) {
 							//if its not on root
                         $filesize = GetDirectorySize(getcwd()."\\".substr($_GET['dir'], 0, -1)."\\".$currentdir_Cont[$x+2]);
@@ -137,22 +139,20 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
 					//
                 
          
-				// if theres a dir?= add \ at the end to avoid bugging the path.
+			
+				// if the whole url contains a ?dir= value
 				if (strpos($currentPath, '?dir=') !== false) {
-					  echo "<tr><td><a href='".$currentPath.$currentdir_Cont[$x+2]."\\"."'>".
+				$extrdir = "";
+				}else{
+					//if not add it
+				$extrdir = "?dir=";
+				}
+				
+              	  echo "<tr><td><a href='".$extrdir.$currentPath.$currentdir_Cont[$x+2]."\\"."'>".
                 "<img id=\"filetype\" src=\"Explorer/filetype/png/".$filetype.".png\" onerror=\"this.src='Explorer/filetype/png/folder.png';\"/><text>"
                 .$currentdir_Cont[$x+2]."</text></a></td>"."<td>".formatSizeUnits($filesize)."</td>"
                 
                 ."</tr>";
-				}else{
-					// if not dir? which means you are in root remove the \ to access directly the file
-				  echo "<tr><td><a href='".$currentPath.$currentdir_Cont[$x+2]."'>".
-                "<img id=\"filetype\" src=\"Explorer/filetype/png/".$filetype.".png\" onerror=\"this.src='Explorer/filetype/png/folder.png';\"/><text>"
-                .$currentdir_Cont[$x+2]."</text></a></td>"."<td>".formatSizeUnits($filesize)."</td>"
-                
-                ."</tr>";	
-				}
-              
               
             }
             
@@ -204,4 +204,3 @@ function formatSizeUnits($bytes)
 }
 
 ?>
-

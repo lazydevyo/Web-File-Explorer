@@ -4,7 +4,7 @@ if(!isset($_SESSION["currentdir"])){
     //current directory (default root) without session
     $_SESSION["currentdir"] = getcwd();
 }else{
-    //if url contains dir set directory to root + dir
+    //if url contains dir set directory to(root + dir value)
     if (strpos($currentPath, '?dir=') !== false) {
         $_SESSION["currentdir"] = getcwd()."\\".$_GET['dir'];
      }else{
@@ -13,7 +13,7 @@ if(!isset($_SESSION["currentdir"])){
      }
 
 }
-    //if its directory change the current directory
+    //if directorydir is a directory read the directory 
 if(is_dir($_SESSION["currentdir"])){
 
 
@@ -27,8 +27,9 @@ if(is_dir($_SESSION["currentdir"])){
     
 }else{
 
-    //if its not directory go to the file as well remove the \ at the end
+    //if its not a directory read it as file as well remove the \ at the end from dir value
     header("Location: ".substr($_GET['dir'], 0, -1));
+   //header("Location: ".$_GET['dir']);
     die();
 }
 
@@ -73,7 +74,7 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
 
 
 
-//if its directory set ?dir= Basicaly if its on Root
+//if its directory set to ?dir= Basicaly if its a folder or its not in root
 
         if(is_dir($currentdir_Cont[$x+2])){
             if($filetype=="folder"){
@@ -97,11 +98,10 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
             }
 
            
-        }else{
-          
+        }else{        
 
 
-            //check if its in root and theres files index.php or exporer.php and hide them.
+            //check if its in root and its a file called index.php or exporer.php and hide them.
             if($_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="index.php" || $_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="explorer.php" || $_SESSION["currentdir"] ==  getcwd() && $currentdir_Cont[$x+2]=="\Explorer"){
               //nothing echo-ing 
 
@@ -109,20 +109,50 @@ echo"<table><tr><th>Name</th><th>Size</th></tr>";
 
 
             }else{
+				
+				//check if $filetype is folder and check the folder size with GetDirectorySize()
                     if($filetype=="folder"){
-                        
+						
+						
+                        if (strpos($currentPath, '?dir=') !== false) {
+							//if its not on root
                         $filesize = GetDirectorySize(getcwd()."\\".substr($_GET['dir'], 0, -1)."\\".$currentdir_Cont[$x+2]);
+						}else{
+							//if its on root
+						$filesize = GetDirectorySize(getcwd()."\\".$currentdir_Cont[$x+2]);
+						}
 
                     }else{
+						//if $filetype its not folder check the file size instead
+						
+						
+						if (strpos($currentPath, '?dir=') !== false) {
+							//if its not on root
                         $filesize = filesize(getcwd()."\\".substr($_GET['dir'], 0, -1)."\\".$currentdir_Cont[$x+2]);
+						}else{
+							//if its on root
+						$filesize = filesize(getcwd()."\\".$currentdir_Cont[$x+2]);	
+						}
                     }
+					//
                 
-                //if its not either of them show the normaly with direct path
-                echo "<tr><td><a href='".$currentPath.$currentdir_Cont[$x+2]."\\"."'>".
+         
+				// if theres a dir?= add \ at the end to avoid bugging the path.
+				if (strpos($currentPath, '?dir=') !== false) {
+					  echo "<tr><td><a href='".$currentPath.$currentdir_Cont[$x+2]."\\"."'>".
                 "<img id=\"filetype\" src=\"Explorer/filetype/png/".$filetype.".png\" onerror=\"this.src='Explorer/filetype/png/folder.png';\"/><text>"
                 .$currentdir_Cont[$x+2]."</text></a></td>"."<td>".formatSizeUnits($filesize)."</td>"
                 
                 ."</tr>";
+				}else{
+					// if not dir? which means you are in root remove the \ to access directly the file
+				  echo "<tr><td><a href='".$currentPath.$currentdir_Cont[$x+2]."'>".
+                "<img id=\"filetype\" src=\"Explorer/filetype/png/".$filetype.".png\" onerror=\"this.src='Explorer/filetype/png/folder.png';\"/><text>"
+                .$currentdir_Cont[$x+2]."</text></a></td>"."<td>".formatSizeUnits($filesize)."</td>"
+                
+                ."</tr>";	
+				}
+              
               
             }
             

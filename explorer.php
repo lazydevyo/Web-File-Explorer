@@ -1,7 +1,7 @@
 <?php 
 
 $currentPath ="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-$short = 2; //short by name
+$sort = 2; //sort by name
 
 if(!isset($_SESSION["show_thumbnails"])){
     
@@ -47,7 +47,7 @@ if(is_dir($_SESSION["currentdir"])){
 
 
         //read everything as array and set it.
-    $currentdir_Cont = scandir($_SESSION["currentdir"],$short);
+    $currentdir_Cont = scandir($_SESSION["currentdir"],$sort);
     // check the lengh of the array
     $dir_len  = count($currentdir_Cont);
 
@@ -126,8 +126,8 @@ echo"<div class='grid-container'>";
             }else{
 
                 echo "<".$htmltype_tr." class='".$classname."'><".$htmltype_td."><a href='?dir=".$currentdir_Cont[$x+2]."\\". "'>".
-                "<img id=\"filetype\" src=\"Explorer/filetype/png/".$filetype.".png\" onerror=\"this.src='Explorer/filetype/png/folder.png';\"/><text>"
-                .limit_text($currentdir_Cont[$x+2],$titleLenght)."</text></a></".$htmltype_td.">"."<".$htmltype_td.">".formatSizeUnits($filesize)."</".$htmltype_td.">"
+                "<img class=\"filetype\" src=\"Explorer/filetype/svg/".$filetype.".svg\" onerror=\"this.src='Explorer/filetype/svg/blank.svg';\"/><text>"
+                .limit_text($currentdir_Cont[$x+2],$titleLenght)."</text></a></".$htmltype_td.">"."<".$htmltype_td." class='filesize'>".formatSizeUnits($filesize)."</".$htmltype_td.">"
                 
                 ."</".$htmltype_tr.">";
             }
@@ -187,22 +187,22 @@ echo"<div class='grid-container'>";
                 if($filetype=="jpg" || $filetype=="png" || $filetype=="gif" || $filetype=="bmp"){
 
                     if($_SESSION["show_thumbnails"]==true){
-                        $filetype ="http://localhost/".str_replace('\\','/',substr($_GET['dir'], 0, -1))."/".$currentdir_Cont[$x+2];
+                        $filetype ="http://".$_SERVER['SERVER_NAME']."/".str_replace('\\','/',substr($_GET['dir'], 0, -1))."/".$currentdir_Cont[$x+2];
                     }else{
-                        $filetype = "Explorer/filetype/png/".$filetype.".png";
+                        $filetype = "Explorer/filetype/svg/".$filetype.".svg";
                     }
                     
                    
                 }else{
 
                     //else just show an icon coresponding to the file type
-                    $filetype = "Explorer/filetype/png/".$filetype.".png";
+                    $filetype = "Explorer/filetype/svg/".$filetype.".svg";
                 }
                 
                
                 echo "<".$htmltype_tr." class='".$classname."'><".$htmltype_td."><a href='".$extrdir.$currentPath.$currentdir_Cont[$x+2]."\\"."'>".
-                    "<img id=\"filetype\" src=\"".$filetype."\" onerror=\"this.src='Explorer/filetype/png/folder.png';\"/><text>"
-                    .limit_text($currentdir_Cont[$x+2],$titleLenght)."</text></a></".$htmltype_td.">"."<".$htmltype_td.">".formatSizeUnits($filesize)."</".$htmltype_td.">"
+                    "<img class=\"filetype\" src=\"".$filetype."\" onerror=\"this.src='Explorer/filetype/svg/blank.svg';\"/><text>"
+                    .limit_text($currentdir_Cont[$x+2],$titleLenght)."</text></a></".$htmltype_td.">"."<".$htmltype_td." class='filesize'>".formatSizeUnits($filesize)."</".$htmltype_td.">"
                     
                     ."</".$htmltype_tr.">";
               

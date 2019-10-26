@@ -1,6 +1,6 @@
 
 Body,html {
-    background-color:#343c46;
+    background-color:#323232;
     margin:0px;
     
     }
@@ -10,17 +10,48 @@ Body,html {
         width: calc(100% - 50px);
     }
     #mainwindow{
+        border-radius:10px;
     margin:40px;
-    
+    background-color:#1d1f21;
     }
     #mainwindow , #dirwindow{
         font-size :1em;
-        padding: 24px;
-        border: 1px solid #404954;
+        
+        
         box-shadow: #0000002e 3px 8px 18px;
         font-family: arial;
     }
+
+    #menubar{
+    padding: 10px;
+    width: calc(100% - 20px);
+    height:62px;
+    background-color:#292929;
+    border-bottom:1px solid #000;
+    border-radius: 10px 10px 0px 0px
+    }
+    #menubar a{
+        color:#fff;
+        text-decoration:none;
+    }
+    #menubar a:hover{
+        color:#0000002e;
+        text-decoration:none;
+    }
+ 
+    .dirary:hover, #menubar a:hover{
+        color:#414141;
+background-color:#fff;
+
+    }
+
+   tbody{
+
+    box-shadow: inset 0px 0px 8px #00000075;
+   }
     .grid-container{
+        box-shadow: inset 0px 0px 8px #00000075;
+        padding: 24px;
         display: grid;
         grid-template-columns: 250px 250px 250px 250px;
 
@@ -42,7 +73,7 @@ Body,html {
     max-height:150px!important;
     }
     
-    #filetype{
+    .filetype{
         vertical-align: bottom;
     margin-left: -10px;
     width:20px;
@@ -53,7 +84,28 @@ Body,html {
         margin-left:5px;
     }
     
-    #mainwindow a{
+    
+    
+    table a:hover{
+    color:#fff;
+    background-color: #565369;
+    }
+    
+    table{
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+
+    width:100%;
+    
+    }
+
+    #sortbutton{
+        vertical-align: middle;
+        height:50px;
+        width:50px;
+    }
+    table a, .grid-container a{
         width: calc(100% - 34px);
         height: 100%;
     
@@ -65,18 +117,9 @@ Body,html {
     
     color:#fff;
     text-decoration: none;
+
     }
-    
-    #mainwindow a:hover{
-    color:#fff;
-    background-color: #565369;
-    }
-    
-    table{
-    width:100%;
-    
-    }
-    tr:nth-child(even){background-color: #2a313a;}
+    tr:nth-child(even){background-color: #252729;}
     
     td:nth-child(2){
         color:#808080;
@@ -89,21 +132,57 @@ Body,html {
     }
     th{
         color: #fff;
-        font-weight:normal;
+        font-weight: normal;
         height: 54px;
         padding-top: 24px;
-        border-bottom: 1px solid #2a313a;
+        padding-left: 7px;
         width: 50%;
-        text-align:left;
+        box-shadow: 0px 3px 5px #00000075;
+        text-align: left;
+      
     }
     input[type=submit] {
-        width: 40px;
-        height: 40px;
-        border: 1px solid #000;
-        background-color: #fff;
+        box-shadow: 0px 0px 2px #00000075;
+        width: 46px;
+        height: 34px;
+        border-radius:6px;
+        border: 0px solid #000;
+        background-color: #484848;
         background-image: url(/explorer/images/thumbnail.png);
-        background-size: cover;
+        background-size: contain;
+        background-position:center;
     }
+    .filesize{
+        color:rgb(177, 177, 177);
+    
+        }
+
+        #slider{
+
+         background-color: #484848;
+        width: 150px;
+        display: inline-block;
+        margin-left: 15px;
+        margin-right: 15px;
+        vertical-align: middle;
+        border: unset;
+        }
+
+        .ui-slider-handle.ui-corner-all.ui-state-default{
+background-color:#fff;
+
+        }
+    .dirary{
+        
+        box-shadow: 0px 0px 2px #00000075;
+        margin-right:3px;
+        padding:8px;
+        background-color:#484848;
+        border-radius:6px;
+        border: 0px solid #000;
+        color:#fff;
+    }
+
     @media only screen and (max-width: 600px) {
         #mainwindow{
             padding:0px;

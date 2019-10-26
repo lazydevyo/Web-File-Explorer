@@ -1,26 +1,53 @@
 
 Body,html {
+    background-color:#323232;
     margin:0px;
     
     }
     #dirwindow {
-        color: #797979;
+        color: #fff;
        
         width: calc(100% - 50px);
     }
     #mainwindow{
+        border-radius:10px;
     margin:40px;
-    
+    background-color:#f6f6f6;
     }
     #mainwindow , #dirwindow{
         font-size :1em;
-        padding: 24px;
-        border: 1px solid #eaeaea;
+        
+        
         box-shadow: #0000002e 3px 8px 18px;
         font-family: arial;
     }
 
+    #menubar{
+    padding: 10px;
+    width: calc(100% - 20px);
+    height:62px;
+    background-color:#d5d2d6;
+    border-bottom:1px solid #000;
+    border-radius: 10px 10px 0px 0px
+    }
+    #menubar a{
+        color:#414141;
+        text-decoration:none;
+    }
+    .dirary:hover, #menubar a:hover{
+        color:#fff;
+background-color:#414141;
+
+    }
+
+  
+   tbody{
+
+    box-shadow: inset 0px 0px 8px #00000075;
+   }
     .grid-container{
+        box-shadow: inset 0px 0px 8px #00000075;
+        padding: 24px;
         display: grid;
         grid-template-columns: 250px 250px 250px 250px;
 
@@ -41,41 +68,54 @@ Body,html {
     height:auto!important;
     max-height:150px!important;
     }
-    #filetype{
-    vertical-align: bottom;
+    
+    .filetype{
+        vertical-align: bottom;
     margin-left: -10px;
     width:20px;
     height:20px;
     
     }
     text {
-        
         margin-left:5px;
     }
     
-    #mainwindow a{
-    width: calc(100% - 34px);
-    height: 100%;
+    
+    
+    table a:hover{
+    color:#fff;
+   background-color: #565369;
+    }
+    
+    table{
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+
+    width:100%;
+    
+    }
+
+    #sortbutton{
+        vertical-align: middle;
+        height:50px;
+        width:50px;
+    }
+    table a, .grid-container a{
+        width: calc(100% - 34px);
+        height: 100%;
+    
     padding-left:24px;
     padding-right:10px;
     padding-top:6px;
     padding-bottom:6px;
     display: block;
     
-    color:#000;
+    color:#2e2e2d;
     text-decoration: none;
+
     }
-    
-    #mainwindow a:hover{
-    color:#fff;
-    background-color: #ffcc7e;
-    }
-    
-    table{
-    width:100%;
-    
-    }
-    tr:nth-child(even){background-color: #f2f2f2;}
+    tr:nth-child(even){background-color: #ffffff;}
     
     td:nth-child(2){
         color:#808080;
@@ -87,22 +127,58 @@ Body,html {
     
     }
     th{
-        font-weight:normal;
+        color: #2e2e2d;
+        font-weight: normal;
         height: 54px;
         padding-top: 24px;
-        border-bottom: 1px solid #ccc;
+        padding-left: 7px;
         width: 50%;
-        text-align:left;
+        box-shadow: 0px 0px 6px #00000075;
+        text-align: left;
+      
+    }
+    input[type=submit] {
+        box-shadow: 0px 0px 2px #00000075;
+        width: 46px;
+        height: 34px;
+        border-radius:6px;
+        border: 0px solid #000;
+        background-color: #f7f7f7;
+        background-image: url(/explorer/images/thumbnail_light.png);
+        background-size: contain;
+        background-position:center;
+    }
+    .filesize{
+        color:rgb(77, 77, 77);
+    
+        }
+
+        #slider{
+
+         background-color: #484848;
+        width: 150px;
+        display: inline-block;
+        margin-left: 15px;
+        margin-right: 15px;
+        vertical-align: middle;
+        border: unset;
+        }
+
+        .ui-slider-handle.ui-corner-all.ui-state-default{
+background-color:#fff;
+
+        }
+    .dirary{
+        
+        box-shadow: 0px 0px 2px #00000075;
+        margin-right:3px;
+        padding:8px;
+        background-color:#f7f7f7;
+        border-radius:6px;
+        border: 0px solid #000;
+        color:#000;
     }
 
-    input[type=submit] {
-        width: 40px;
-        height: 40px;
-        border: 1px solid #000;
-        background-color: #fff;
-        background-image: url(/explorer/images/thumbnail.png);
-        background-size: cover;
-    }
     @media only screen and (max-width: 600px) {
         #mainwindow{
             padding:0px;

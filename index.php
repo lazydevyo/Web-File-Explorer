@@ -37,8 +37,10 @@ function SaveTheme($text){
 
 <script src="Explorer/jquery-ui/external/jquery/jquery.js"></script>
 <script src="Explorer/jquery-ui/jquery-ui.js"></script>
+
 <link rel="stylesheet" href="Explorer/jquery-ui/jquery-ui.css">
 <link rel="stylesheet" href="Explorer/jquery-ui/jquery-ui.theme.css">
+
 <style>
 #selectstyle{
 
@@ -70,11 +72,34 @@ function SaveTheme($text){
 </script>
 </head>
 <body>
+<div id="loading"></div>
+<div id="popout">
+<div id="createfolderform">
+
+<h2>Create a folder</h2>
+<form style="display: inline" action="<?php echo"http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>" method="post">
+<input type="text" name="filenamevalue" value="">
+<input type="submit" name="mdr" value="Create">
+</form>
+</div>
+
+<div id="uploadfileform">
+
+<h2>Create a folder</h2>
+<form style="display: inline" action="<?php echo"http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>"  method="post" enctype="multipart/form-data">
+<input type="file" name="uploadfilevalue" value="">
+<input id="uploadbuttonsubmit" type="submit" name="upfile" value="Upload">
+</form>
+</div>
+
+
+</div>
 
 <div id="SelectStyle">
 <a href="?theme=Dark">🌚</a>
 <a href="?theme=Light">🌞</a>
 </div>
+
 <div id="mainwindow">
 <div id="menubar">
 
@@ -82,12 +107,17 @@ function SaveTheme($text){
     
 <form style="display: inline" action="<?php echo"http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>" method="post">
 
-<input type="submit" name="swap" value="">
+<input id="sortb" type="submit" name="swap" value="">
 </form>
+
 </span>
+
 <div id="slider"></div>
+<span id="createfolder_button"></span>
+<span id="uploadfile_button"></span>
+<div id="navigationfolders">
 <?php
-echo "<span class='dirary'>"."<a href='/'>"."Home"."</a></span>";
+echo "<a href='/'>"."<span class='dirary'>"."Home"."</span></a>";
 
 
 $dirloop ="";
@@ -110,13 +140,13 @@ for($x = 0; $x < count($diraryCut)-1; $x++) {
         }
 
 //loop throuth all the dirarycut
- echo "<span class='dirary'>"."<a href='".$extrdir.$dirloop."\'>".$diraryCut[$x]."</a></span>";
+ echo "<a href='".$extrdir.$dirloop."\'>"."<span class='dirary'>".$diraryCut[$x]."</span></a>";
 
 
 }
 
 ?>
-
+</div>
 </div>
 <?php 
 
@@ -137,5 +167,26 @@ include "explorer.php" ;
      }
 ?>
 </div>
+<script>
+$("#createfolder_button").click(function() {
+$("#popout").fadeIn();
+$("#createfolderform").css("display","block");
+});
+
+$("#uploadfile_button").click(function() {
+$("#popout").fadeIn();
+$("#uploadfileform").css("display","block");
+});
+uploadbuttonsubmit
+$("#uploadbuttonsubmit").click(function() {
+$("#loading").fadeIn();
+
+});
+$("#popout").click(function() {
+//$("#popout").fadeOut();
+
+});
+</script>
 </body>
 <HTML>
+

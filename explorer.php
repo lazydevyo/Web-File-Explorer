@@ -3,6 +3,13 @@
 $currentPath ="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $sort = 2; //sort by name
 
+if (strpos($currentPath, '?dir=') !== false) {
+$root = false;
+ } else{
+$root = true;
+}
+
+
 if(!isset($_SESSION["show_thumbnails"])){
     
     $_SESSION["show_thumbnails"] = false;
@@ -14,7 +21,22 @@ if(isset($_POST['swap'])){
     echo "<meta http-equiv='refresh' content='0'>";
 }
 
+if(isset($_POST['mdr'])){
+ if($root){
+    CreateFolder($_POST['filenamevalue'],"");
+ }else{
+    CreateFolder($_POST['filenamevalue'],$_GET['dir']."/");
+ }
 
+
+}
+if(isset($_POST['upfile'])){
+    if($root){
+    UploadFile("");
+    }else{
+    UploadFile($_GET['dir']."/");
+    }
+}
 if($_SESSION["show_thumbnails"]==true){
     $titleLenght = 3;
     $htmltype_tr = "div";
@@ -32,7 +54,7 @@ if(!isset($_SESSION["currentdir"])){
     $_SESSION["currentdir"] = getcwd();
 }else{
     //if url contains dir set directory to(root + dir value)
-    if (strpos($currentPath, '?dir=') !== false) {
+    if ($root== false) {
 		
 		// currentdir shows clean directory e.g localhost\folder\ instead localhost?dir=folder\
         $_SESSION["currentdir"] = getcwd()."\\".$_GET['dir'];
@@ -151,7 +173,7 @@ echo"<div class='grid-container'>";
                     if($filetype=="folder"){
 						
 						//if the whole url contains ?dir=
-                        if (strpos($currentPath, '?dir=') !== false) {
+                        if ($root== false) {
                             
 							//if its not on root
                         $filesize = GetDirectorySize(getcwd()."\\".substr($_GET['dir'], 0, -1)."\\".$currentdir_Cont[$x+2]);
@@ -164,7 +186,7 @@ echo"<div class='grid-container'>";
 						//if $filetype its not folder check the file size instead
 						
 						
-						if (strpos($currentPath, '?dir=') !== false) {
+						if ($root== false) {
 							//if its not on root
                         $filesize = filesize(getcwd()."\\".substr($_GET['dir'], 0, -1)."\\".$currentdir_Cont[$x+2]);
 						}else{
@@ -177,7 +199,7 @@ echo"<div class='grid-container'>";
          
 			
 				// if the whole url contains a ?dir= value
-				if (strpos($currentPath, '?dir=') !== false) {
+				if ($root== false) {
 				$extrdir = "";
 				}else{
 					//if not add it
@@ -187,7 +209,12 @@ echo"<div class='grid-container'>";
                 if($filetype=="jpg" || $filetype=="png" || $filetype=="gif" || $filetype=="bmp"){
 
                     if($_SESSION["show_thumbnails"]==true){
-                        $filetype ="http://".$_SERVER['SERVER_NAME']."/".str_replace('\\','/',substr($_GET['dir'], 0, -1))."/".$currentdir_Cont[$x+2];
+                        if($root== true){
+                            $filetype ="http://".$_SERVER['SERVER_NAME']."/".$currentdir_Cont[$x+2];
+                        }else{
+                            $filetype ="http://".$_SERVER['SERVER_NAME']."/".str_replace('\\','/',substr($_GET['dir'], 0, -1))."/".$currentdir_Cont[$x+2];
+                        }
+                        
                     }else{
                         $filetype = "Explorer/filetype/svg/".$filetype.".svg";
                     }
@@ -238,6 +265,15 @@ function GetDirectorySize($path){
         }
     }
     return $bytestotal;
+}
+
+function CreateFolder($name,$dir){
+    mkdir($dir.$name);
+}
+function UploadFile($path){
+    $tmp_name = $_FILES["uploadfilevalue"]["tmp_name"];
+    $filename = basename($_FILES["uploadfilevalue"]["name"]);
+    move_uploaded_file($tmp_name,$path.$filename);
 }
 function formatSizeUnits($bytes)
     {

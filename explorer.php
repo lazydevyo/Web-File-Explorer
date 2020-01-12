@@ -206,13 +206,13 @@ echo"<div class='grid-container'>";
 				$extrdir = "?dir=";
 				}
                 //if file type is one of these replace the icon with the actual image from the file
-                if($filetype=="jpg" || $filetype=="png" || $filetype=="gif" || $filetype=="bmp"){
+                if($filetype=="jpg" || $filetype=="png" || $filetype=="gif" || $filetype=="bmp" || $filetype=="JPG" || $filetype=="PNG" || $filetype=="GIF" || $filetype=="BMP"){
 
                     if($_SESSION["show_thumbnails"]==true){
                         if($root== true){
-                            $filetype ="http://".$_SERVER['SERVER_NAME']."/".$currentdir_Cont[$x+2];
+                            $filetype =dirname($_SERVER['PHP_SELF'])."/".$currentdir_Cont[$x+2];
                         }else{
-                            $filetype ="http://".$_SERVER['SERVER_NAME']."/".str_replace('\\','/',substr($_GET['dir'], 0, -1))."/".$currentdir_Cont[$x+2];
+                            $filetype =dirname($_SERVER['PHP_SELF'])."/".str_replace('\\','/',substr($_GET['dir'], 0, -1))."/".$currentdir_Cont[$x+2];
                         }
                         
                     }else{

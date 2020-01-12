@@ -3,7 +3,7 @@ session_start();
 $currentPath ="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 if (strpos($currentPath, '?theme=') !== false) {
     SaveTheme($_GET['theme'].".css");
- //   Header("Location:http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+    Header("Location:".dirname($_SERVER['PHP_SELF']));
 }
 
 //get current dir and split
@@ -117,7 +117,7 @@ function SaveTheme($text){
 <span id="uploadfile_button"></span>
 <div id="navigationfolders">
 <?php
-echo "<a href='/'>"."<span class='dirary'>"."Home"."</span></a>";
+echo "<a href='".dirname($_SERVER['PHP_SELF'])."'>"."<span class='dirary'>"."Home"."</span></a>";
 
 
 $dirloop ="";
